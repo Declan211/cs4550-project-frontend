@@ -55,7 +55,7 @@ export default function Quizzes() {
             size="lg"
             className="ms-auto"
             id="wd-add-quiz"
-            onClick={() => navigate(`Kambaz/Courses/${cid}/Quizzes/new`)}
+            onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/new`)}
           >
             <FaPlus className="me-2" /> Quiz
           </Button>
@@ -74,7 +74,7 @@ export default function Quizzes() {
               <BsGripVertical className="me-2" />
               <div className="flex-grow-1">
                 <Link
-                  to={`Kambaz/Courses/${cid}/Quizzes/${quiz._id}`}
+                  to={`/Kambaz/Courses/${cid}/Quizzes/${quiz._id}`}
                   className="text-decoration-none"
                 >
                   <b>{quiz.title}</b>
