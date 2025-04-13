@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import * as coursesClient from "../client";
 
 export default function QuizPreview() {
   const { cid, qid } = useParams();
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const isFaculty = currentUser?.role === "FACULTY";
+
   const [quiz, setQuiz] = useState<any>(null);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
+  const [started, setStarted] = useState(isFaculty); // faculty skips "Start Quiz" step
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -22,6 +27,7 @@ export default function QuizPreview() {
   }, [cid, qid]);
 
   const handleChange = (questionId: string, selected: string) => {
+    if (submitted) return; // prevent changes after submission
     setAnswers({ ...answers, [questionId]: selected });
   };
 
@@ -38,19 +44,28 @@ export default function QuizPreview() {
   };
 
   if (!quiz) {
-    return (<div className="container mt-5">Loading...</div>);
-  } 
+    return <div className="container mt-5">Loading...</div>;
+  }
+
+  if (!started && !isFaculty) {
+    return (
+      <div className="container mt-5 text-center">
+        <h3 className="fw-semibold">{quiz.title}</h3>
+        <p className="text-muted">This quiz has {quiz.questions?.length} questions.</p>
+        <button className="btn btn-primary" onClick={() => setStarted(true)}>
+          Start Quiz
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3 className="fw-semibold">{quiz.title} (Preview)</h3>
-        <button
-          className="btn btn-outline-secondary"
-          onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/edit`)}
-        >
-          Edit Quiz
-        </button>
+      <div className="mb-4">
+        <h3 className="fw-semibold">{quiz.title} {isFaculty && "(Preview)"}</h3>
+        {isFaculty && (
+          <div className="text-muted">You are previewing this quiz as a student.</div>
+        )}
       </div>
 
       {quiz.questions?.map((q: any, index: number) => (
@@ -92,7 +107,21 @@ export default function QuizPreview() {
 
       {submitted && (
         <div className="mt-4">
-          <h5>Score: {score} / {quiz.questions?.length}</h5>
+          <h5>Final Score</h5>
+          <p>
+            You scored <strong>{score}</strong> out of{" "}
+            <strong>{quiz.questions?.length}</strong>.
+          </p>
+          {isFaculty && (
+            <button
+              className="btn btn-outline-secondary"
+              onClick={() =>
+                navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/edit`)
+              }
+            >
+              Edit Quiz
+            </button>
+          )}
         </div>
       )}
     </div>
