@@ -84,6 +84,7 @@ export default function QuizDetails() {
         <div><strong>Multiple Attempts</strong> &nbsp; {quiz.multipleAttempts}</div>
         <div><strong>View Responses - not in data rn</strong> &nbsp; {}</div>
         <div><strong>Show Correct Answers</strong> &nbsp; {quiz.showCorrectAnswers}</div>
+        <div><strong>Access Code</strong> &nbsp; {quiz.accessCode}</div>
         <div><strong>One Question at a Time</strong> &nbsp; {quiz.oneQuestionAtATime}</div>
         <div><strong>Required to View Quiz Results - not in data rn</strong> &nbsp; {quiz["required to view quiz results"]}</div>
         <div><strong>Webcam Required</strong> &nbsp; {quiz.webcamRequired}</div>

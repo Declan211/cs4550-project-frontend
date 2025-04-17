@@ -128,14 +128,14 @@ export default function Quizzes() {
                 dueDate: buildDateObj(now),
                 quizType: "Graded Quiz",
                 assignmentGroup: "Quizzes",
-                shuffleAnswers: true,
+                shuffleAnswers: "Yes",
                 timeLimit: 20,
                 multipleAttempts: false,
                 howManyAttempts: 1,
                 showCorrectAnswers: "Never",
                 accessCode: "",
-                oneQuestionAtATime: true,
-                webcamRequired: false,
+                oneQuestionAtATime: "Yes",
+                webcamRequired: "No",
                 lockQuestionsAfterAnswering: false,              
               };
 
