@@ -151,10 +151,10 @@ export default function Quizzes() {
       <br />
       <ListGroup className="rounded-0" id="wd-quizzes-list">
         {quizzes.length === 0 ? (
-          <p>No quizzes available. Click "Add Quiz" to create one.</p>
+          (isFaculty && <p>No quizzes available. Click "Add Quiz" to create one.</p>)
         ) : (
           quizzes
-            .filter((quiz: any) => isFaculty || quiz.published) // Students only see published quizzes
+            .filter((quiz: any) => isFaculty || quiz.published) 
             .map((quiz: any) => (
               <ListGroup.Item
                 key={quiz._id}
